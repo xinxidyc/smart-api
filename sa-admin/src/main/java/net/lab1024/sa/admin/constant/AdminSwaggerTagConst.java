@@ -49,7 +49,6 @@ public class AdminSwaggerTagConst extends SwaggerTagConst {
         public static final String SYSTEM_ROLE_MENU = "系统-角色-菜单";
 
         public static final String SYSTEM_DATA_TRACER = "系统-";
-        public static final String SYSTEM_REGISTER = "系统-注册";
     }
 
 

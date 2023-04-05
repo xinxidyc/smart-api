@@ -196,28 +196,5 @@
         WHERE employee_id = #{employeeId}
     </update>
 
-    <!-- 查询指定角色且在指定部门的员工信息 -->
-    <select id="selectByDepartmentIdAndRoleId"
-            resultType="net.lab1024.sa.admin.module.system.employee.domain.entity.EmployeeEntity">
-        SELECT *
-        FROM t_employee te
-        INNER JOIN t_role_employee tre
-        ON te.`employee_id` = tre.`employee_id`
-        <where>
-            tre.role_id = #{roleId}
-            AND
-            te.disabled_flag = 0
-            AND
-            te.deleted_flag = 0
-            <if test="departmentIdList != null and departmentIdList.size > 0">
-                AND
-                te.department_id
-                IN
-                <foreach collection="departmentIdList" open="(" close=")" separator="," item="item">
-                    #{item}
-                </foreach>
-            </if>
-        </where>
-        ORDER BY te.create_time DESC
-    </select>
+
 </mapper>
