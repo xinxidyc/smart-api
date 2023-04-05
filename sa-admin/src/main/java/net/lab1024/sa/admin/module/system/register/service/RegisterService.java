@@ -61,19 +61,19 @@ public class RegisterService {
      * @return
      */
     public synchronized ResponseDTO<String> doRegister(RegisterForm registerForm) {
-
+        
         // 校验名称是否重复
         EmployeeEntity employeeEntity = employeeDao.getByLoginName(registerForm.getLoginName(), false);
         if (null != employeeEntity) {
             return ResponseDTO.userErrorParam("登录名重复");
         }
-
+        
         // 校验姓名是否重复
         employeeEntity = employeeDao.getByActualName(registerForm.getActualName(), false);
         if (null != employeeEntity) {
             return ResponseDTO.userErrorParam("姓名重复");
         }
-
+        
         // 校验电话是否存在
         employeeEntity = employeeDao.getByPhone(registerForm.getPhone(), false);
         if (null != employeeEntity) {
@@ -90,7 +90,7 @@ public class RegisterService {
         }
 
         EmployeeEntity entity = SmartBeanUtil.copy(registerForm, EmployeeEntity.class);
-
+        
         // 设置密码
         entity.setLoginPwd(getEncryptPwd(registerForm.getLoginPwd()));
 
@@ -100,7 +100,7 @@ public class RegisterService {
 
         return ResponseDTO.ok();
     }
-
+    
     /**
      * 更新密码
      *
@@ -123,7 +123,7 @@ public class RegisterService {
 
         return ResponseDTO.ok();
     }
-
+    
     /**
      * 重置密码
      *
@@ -149,7 +149,7 @@ public class RegisterService {
     public static String getEncryptPwd(String password) {
         return DigestUtils.md5Hex(String.format(PASSWORD_SALT_FORMAT, password));
     }
-
+    
     /**
      * 根据登录名获取员工
      *

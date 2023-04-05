@@ -1,6 +1,7 @@
 package net.lab1024.sa.admin.listener;
 
 import lombok.extern.slf4j.Slf4j;
+import net.lab1024.sa.admin.cache.DepartmentCache;
 import net.lab1024.sa.common.common.code.ErrorCodeRegister;
 import net.lab1024.sa.common.config.ScheduleConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,9 @@ public class AdminStartupRunner implements CommandLineRunner {
 //        destroySchedules = scheduleConfig.destroy();
 
         log.info("\n ---------------【1024创新实验室 温馨提示：】 ErrorCode 共计完成初始化： {}个！---------------" +
-                 "\n ---------------【1024创新实验室 温馨提示：】 {}---------------\n", codeCount, destroySchedules);
+                "\n ---------------【1024创新实验室 温馨提示：】 {}---------------\n", codeCount, destroySchedules);
 
+        int deptCount = DepartmentCache.initialize();
+        log.info("\n ---------------【1024创新实验室 温馨提示：】 DepartmentCache 共计完成初始化： {}个！---------------", deptCount);
     }
 }

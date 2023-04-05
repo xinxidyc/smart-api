@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.sa.admin.module.system.signin.dao.SignInDao">
+
+    <!-- 查询指定班级的学生-->
+    <select id="selectByDepartmentId"
+            resultType="net.lab1024.sa.admin.module.system.signin.domain.entity.SignInEntity">
+        SELECT *
+        FROM t_sign_in
+        <where>
+            1=1
+            <if test="signInDate != null">
+                AND sign_date = #{signInDate}
+            </if>
+            <if test="departmentIdList != null and departmentIdList.size > 0">
+                AND
+                t_sign_in.department_id
+                IN
+                <foreach collection="departmentIdList" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY sign_date DESC
+    </select>
+
+    <!-- 批量插入签到数据 -->
+    <insert id="insetBatch" parameterType="java.util.List" >
+        INSERT INTO t_sign_in
+        (employee_id, actual_name, gender, mobile_no, sign_state, sign_date, department_id, department_name, remark)
+        VALUES
+        <foreach collection="signInList" item="item" index="index"
+                 separator=",">
+            (
+            #{item.employeeId}, #{item.actualName}, #{item.gender},
+            #{item.mobileNo}, #{item.signState}, #{item.signDate},
+            #{item.departmentId}, #{item.departmentName}, #{item.remark}
+            )
+        </foreach>
+    </insert>
+
+    <update id="signInBatch" parameterType="java.util.List">
+        UPDATE t_sign_in
+        SET sign_state = '1'
+        WHERE employee_id IN
+        <foreach collection="signInFormList" item="item" index="index"
+                 separator=",">
+            (
+            #{item.employeeId}
+            )
+        </foreach>
+        <bind name = "signDate"  value = "signInFormList.get(0).signDate"/>
+        AND sign_date = #{signDate}
+    </update>
+</mapper>

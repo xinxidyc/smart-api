@@ -168,4 +168,15 @@ public interface EmployeeDao extends BaseMapper<EmployeeEntity> {
      */
     Integer updatePassword(@Param("employeeId") Integer employeeId, @Param("password") String password);
 
+    /**
+     *
+     *
+     * 查询指定角色且在指定部门的员工信息
+     *
+     * @param departmentIdList
+     * @param roleId
+     * @return
+     */
+    List<EmployeeEntity> selectByDepartmentIdAndRoleId(@Param("departmentIdList") List<Long> departmentIdList, @Param("roleId") Long roleId);
+
 }
